@@ -1,11 +1,11 @@
-import { Item, User } from '../types/user'
-import { BASE_URL } from './const'
+import { Item, User } from '../types/user';
+import { BASE_URL } from './const';
 
-type LoginResult = 'success' | 'fail'
+type LoginResult = 'success' | 'fail';
 
 export interface LoginRequest {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
 export const login = async (args: LoginRequest): Promise<LoginResult> => {
@@ -13,37 +13,61 @@ export const login = async (args: LoginRequest): Promise<LoginResult> => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      credentials: 'include'
+      credentials: 'include',
     },
-    body: JSON.stringify(args)
-  })
+    body: JSON.stringify(args),
+  });
 
-  return loginRes.ok ? 'success' : 'fail'
-}
+  return loginRes.ok ? 'success' : 'fail';
+};
 
 export const getCurrentUserInfo = async (): Promise<User | null> => {
-  const userInfoRes = await fetch(`${ BASE_URL }/profile`, {
+  const userInfoRes = await fetch(`${BASE_URL}/profile`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      credentials: 'include'
-    }
-  })
+      credentials: 'include',
+    },
+  });
 
-  return userInfoRes.ok ? userInfoRes.json() : null
-}
+  return userInfoRes.ok ? userInfoRes.json() : null;
+};
 
 // TODO 4-2: GET, '/items' 호출
 export const getItems = async (): Promise<Item[] | null> => {
-  return null
-}
+  const userItemRes = await fetch(`${BASE_URL}/items`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      credentials: 'include',
+    },
+  });
+
+  return userItemRes.ok ? userItemRes.json() : null;
+};
 
 // TODO 4-2: GET, '/all-items' 호출
 export const getAllItems = async (): Promise<Item[] | null> => {
-  return null
-}
+  const allItemsRes = await fetch(`${BASE_URL}/all-items`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      credentials: 'include',
+    },
+  });
 
+  return allItemsRes.ok ? allItemsRes.json() : null;
+};
 
 // TODO 4-2: POST, '/logout' 호출
 export const logout = async (): Promise<void> => {
-}
+  await fetch(`${BASE_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      credentials: 'include',
+    },
+  });
+
+  return;
+};
